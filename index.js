@@ -42,13 +42,26 @@ let database = firebase.database()
 // gbpaudfunction();
 // gbpjpyfunction();
 // timeCapture();
+
 // }, 3000);
+
+
 
 
 function timeCapture(){
  var time= moment().utcOffset("+05:30").format("YYYY-MM-DD, hh:mm:ss")
  database.ref('/EURUSD/time').set({
   time:time
+})
+axios.get("https://ssltsw.forexprostools.com/api.php?action=refresher&pairs=1,2,3,5,7,9,10&timeframe=60&lang=1",{
+  headers:{
+    "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36",
+    "Host":"ssltsw.forexprostools.com",
+    "X-Requested-With": "XMLHttpRequest",
+    "Referer":"https://ssltsw.forexprostools.com/"
+  }
+}).then((response) => {
+  database.ref('/EURUSD/totalcall').set(response.data)
 })
 }
 
@@ -1570,23 +1583,23 @@ function nzdjpyfunction(){
 
 app.get('/', (req, res) => {
   eurusdfunction();
-  audcadfunction();
-  audchffunction();
-  audusdfunction();
-  audjpyfunction();
-  usdchffunction();
-  usdjpyfunction();
-  usdcadfunction();
-  eurgbpfunction();
-  eurchffunction();
-  eurjpyfunction();
-  cadjpyfunction();
-  nzdusdfunction();
-  nzdjpyfunction();
-  gbpaudfunction();
-  gbpjpyfunction();
-  timeCapture();
-  res.send({"Keeplive":"keep running by API", 
+audcadfunction();
+audchffunction();
+audusdfunction();
+audjpyfunction();
+usdchffunction();
+usdjpyfunction();
+usdcadfunction();
+eurgbpfunction();
+eurchffunction();
+eurjpyfunction();
+cadjpyfunction();
+nzdusdfunction();
+nzdjpyfunction();
+gbpaudfunction();
+gbpjpyfunction();
+timeCapture();
+  res.send({"Keeplive":"keep running API", 
   timeOfServer: moment().format("YYYY-MM-DD, hh:mm:ss"),
   time: moment().utcOffset("+05:30").format("YYYY-MM-DD, hh:mm:ss")
 })
